@@ -1,0 +1,27 @@
+{
+  "name": "todo_list",
+  "version": "1.0.0",
+  "description": "직접 만들어보는 To Do List - Express.js + React.js + SQLite",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js"
+  },
+  "keywords": [
+    "to do list",
+    "express",
+    "react",
+    "sqlite",
+    "투두리스트",
+    "익스프레스",
+    "리액트"
+  ],
+  "author": "hyunki, bae",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
