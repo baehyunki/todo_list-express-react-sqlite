@@ -45,7 +45,10 @@ const ListItem = ({
       .then((result) => {
         const { todos, message } = result
         setList(todos)
-        toast(message, { type: "success" })
+        toast(
+          message === "완료" ? "완료로 상태 변경" : "진행중으로 상태 변경",
+          { type: "success" },
+        )
       })
       .catch((error) => console.log(error))
   }

@@ -27,42 +27,54 @@ const Form = forwardRef(
     const submitHandler = (e, id) => {
       e.preventDefault() // 기본 폼 동작 방지
 
+      // API 엔드포인트와 HTTP 메서드 설정
+      const url = edit.status
+        ? `http://localhost:5000/api/todos/${id}`
+        : "http://localhost:5000/api/todos/create"
+      const method = edit.status ? "PUT" : "POST"
+      const headers = {
+        "Content-Type": "application/json",
+      }
+
+      // 값이 비어있는지 확인
       if (value === undefined || value.trim().length === 0) {
-        // 값이 비어있는지 확인
         setFocus()
         return toast("값을 입력해주세요", { type: "error" })
       }
 
-      e.key === "Enter" && setValue("") // 엔터 키를 누르면 값 비우기
+      // 엔터 키를 누르면 값 비우기
+      e.key === "Enter" && setValue("")
 
       if (edit.status) {
-        // 수정 모드인지 확인
-        return fetch(`http://localhost:5000/api/todos/${id}`, {
-          // todo 업데이트를 위해 PUT 요청
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
+        // todo 업데이트를 위해 PUT 요청
+        return fetch(url, {
+          method,
+          headers,
           body: JSON.stringify({ id, value }),
         })
           .then((res) => res.json())
           .then((result) => {
             const { todos, message } = result
+
+            // 수정 모드 토글
             setEdit((prevState) => {
-              // 수정 모드 토글
               return { ...prevState, status: !prevState.status }
             })
-            setList(todos) // todo 목록 업데이트
-            setValue("") // 값 비우기
-            toast(message, { type: "success" }) // 성공 토스트 메시지 출력
+
+            // todo 목록 업데이트
+            setList(todos)
+
+            // 값 비우기
+            setValue("")
+
+            // 성공 토스트 메시지 출력
+            toast(message, { type: "success" })
           })
       } else {
-        return fetch("http://localhost:5000/api/todos/create", {
-          // todo 생성을 위해 POST 요청
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+        // todo 생성을 위해 POST 요청
+        return fetch(url, {
+          method,
+          headers,
           body: JSON.stringify({
             value,
             completed: false,
@@ -70,10 +82,17 @@ const Form = forwardRef(
         })
           .then((result) => result.json())
           .then((result) => {
-            setList((prevState) => [...prevState, result.todos]) // 새로운 todo 목록에 추가
-            setValue("") // 값 비우기
+            // 새로운 todo 목록에 추가
+            setList((prevState) => [...prevState, result.todos])
+
+            // 값 비우기
+            setValue("")
+
+            // 포커스 설정
             setFocus()
-            toast(`${value} 추가 성공`, { type: "success" }) // 성공 토스트 메시지 출력
+
+            // 성공 토스트 메시지 출력
+            toast(`${value} 추가 성공`, { type: "success" })
           })
           .catch((error) => console.log(error))
       }

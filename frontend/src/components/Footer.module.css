@@ -1,0 +1,24 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+
+  width: var(--size-content-2);
+  margin: 0 auto;
+  gap: 0.25rem;
+}
+.info {
+  display: flex;
+  font-size: var(--font-size-fluid-0);
+  gap: var(--size-fluid-1);
+  color: var(--stone-6);
+}
+.footer a {
+  color: var(--indigo-5);
+}
+.desc {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  font-size: var(--font-size-fluid-0);
+  color: var(--stone-5);
+}

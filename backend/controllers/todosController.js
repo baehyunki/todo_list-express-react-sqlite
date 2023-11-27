@@ -11,24 +11,14 @@ const getTodos = (req, res) => {
   // todos 테이블에서 모든 데이터를 가져옴
   db.all("SELECT * FROM todos", (err, rows) => {
     // 에러가 발생한 경우 에러 메시지를 반환
-    if (err) return res.json({ message: err })
-    // 가져온 todos 데이터와 빈 메시지를 응답으로 반환
-    res.json({ todos: rows, message: "" })
-  })
-}
-/**
- * getTodo 함수는 요청된 ID를 이용하여 할 일 정보를 반환합니다.
- *
- * @param {Object} req - 요청 객체
- * @param {Object} res - 응답 객체
- * @returns {Object} - 할 일 정보를 포함하는 JSON 응답
- */
-const getTodo = (req, res) => {
-  // 요청된 ID를 이용하여 할 일 정보를 생성합니다.
-  const todo = { message: `할 일 ${req.params.id}` }
 
-  // 할 일 정보를 JSON 형태로 응답합니다.
-  res.json(todo)
+    if (err) {
+      res.status(400)
+      throw new Error("todos 데이터를 가져올 수 없습니다")
+    }
+    // 가져온 todos 데이터와 빈 메시지를 응답으로 반환
+    res.status(200).json({ todos: rows, message: "" })
+  })
 }
 
 /**
@@ -46,10 +36,13 @@ const createTodo = (req, res) => {
     [id, value, false], // 쿼리에 전달할 파라미터
     (err) => {
       // 에러 발생시 에러메세지 반환
-      if (err) return res.json({ message: err })
+      if (err) {
+        res.status(400)
+        throw new Error("todos 데이터를 추가할 수 없습니다")
+      }
 
       // 응답으로 전송할 데이터와 메세지 반환
-      res.json({
+      res.status(201).json({
         todos: { id, title: value, completed },
         message: `${value} To Do 추가`,
       })
@@ -69,9 +62,11 @@ const updateTodo = (req, res) => {
   db.run("UPDATE todos SET title = ? WHERE id = ?", [value, id]).all(
     "SELECT * FROM todos",
     (err, rows) => {
-      // 에러 발생시 에러메세지 응답
-      if (err) return res.json({ message: err })
-      res.json({ todos: rows, message: `${value}로 수정 완료` }) // 수정 완료 메세지와 업데이트된 todos 목록 응답
+      if (err) {
+        res.status(400)
+        throw new Error("todos 데이터를 업데이트할 수 없습니다")
+      }
+      res.status(200).json({ todos: rows, message: `${value}로 수정 완료` }) // 수정 완료 메세지와 업데이트된 todos 목록 응답
     },
   )
 }
@@ -96,10 +91,15 @@ const completeTodo = (req, res) => {
     "SELECT * FROM todos",
     (err, rows) => {
       // 에러가 발생하면 에러 메시지를 응답합니다.
-      if (err) return res.json({ message: err })
+      if (err) {
+        res.status(400)
+        throw new Error("todos 데이터를 업데이트할 수 없습니다")
+      }
 
       // 업데이트된 할일 목록과 완료 여부에 따른 메시지를 응답합니다.
-      res.json({ todos: rows, message: `${completed ? "완료" : "진행중"}` })
+      res
+        .status(200)
+        .json({ todos: rows, message: `${completed ? "완료" : "진행중"}` })
     },
   )
 }
@@ -116,17 +116,19 @@ const deleteTodo = (req, res) => {
     "SELECT * FROM todos",
     (err, rows) => {
       // 에러 발생시 에러메세지 응답
-      if (err) return res.json({ message: err })
+      if (err) {
+        res.status(400)
+        throw new Error("todos 데이터를 가져올 수 없습니다")
+      }
 
       // 삭제된 할 일 목록과 삭제 성공 메세지 응답
-      res.json({ todos: rows, message: `삭제 성공` })
+      res.status(200).json({ todos: rows, message: `삭제 성공` })
     },
   )
 }
 
 module.exports = {
   getTodos,
-  getTodo,
   createTodo,
   completeTodo,
   deleteTodo,

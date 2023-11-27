@@ -3,7 +3,6 @@ const router = express.Router()
 const { v4: uuidv4 } = require("uuid")
 const {
   getTodos,
-  getTodo,
   createTodo,
   completeTodo,
   deleteTodo,
@@ -12,9 +11,6 @@ const {
 
 // 전체 할 일 조회
 router.get("/todos", getTodos)
-
-// 개별 할 일 조회
-router.get("/todos/:id", getTodo)
 
 // 새로운 할 일 추가
 router.post("/todos/create", createTodo)
