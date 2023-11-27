@@ -1,0 +1,100 @@
+/* the props */
+@import "open-props/open-props.min.css";
+
+/* optional imports that use the props */
+@import "open-props/normalize.min.css";
+@import "open-props/colors.min.css";
+@import "open-props/buttons.min.css";
+
+/* individual imports */
+@import "open-props/sizes.min.css";
+
+/* see PropPacks for the full list */
+
+/* input 애니메이션 제거 */
+:where(:focus-visible) {
+  transition: none;
+}
+:where(:not(:active):focus-visible) {
+  transition-duration: 0s;
+}
+:where(:not(:active):focus-visible) {
+  outline-offset: 0;
+}
+
+.container {
+  background-color: white;
+  margin: var(--size-fluid-1) auto;
+  max-width: var(--size-content-2);
+  box-shadow: var(--shadow-2);
+  border-radius: var(--radius-2);
+}
+.form-group {
+  display: flex;
+  align-items: center;
+  gap: var(--size-fluid-1);
+  width: 100%;
+  padding: var(--size-fluid-1);
+  box-shadow: var(--shadow-2);
+  margin-bottom: var(--size-fluid-1);
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: var(--layer-1);
+}
+.form-group > label {
+}
+.form-group > input {
+  flex: 1;
+  padding: var(--size-fluid-1);
+}
+ul {
+  width: 100%;
+  list-style: none;
+  padding: var(--size-fluid-1);
+  margin: 0;
+}
+ul > li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--size-fluid-1);
+  padding: var(--size-fluid-1);
+}
+ul > li > label {
+  flex: 1;
+  max-width: 300px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+ul > li:first-child {
+  border-top-left-radius: var(--radius-2);
+  border-top-right-radius: var(--radius-2);
+}
+ul > li:last-child {
+  border-bottom-left-radius: var(--radius-2);
+  border-bottom-right-radius: var(--radius-2);
+}
+ul > li:has(input:checked) {
+  background-color: var(--stone-2);
+}
+ul > li > input:checked + label {
+  text-decoration: line-through;
+  color: var(--stone-5);
+}
+ul > li:has(input:checked) > .button-group svg {
+  color: var(--stone-5) !important;
+}
+ul > li:has(input:checked) > .button-group > button {
+  pointer-events: none;
+}
+.button-group {
+  display: flex;
+  gap: var(--size-fluid-1);
+}
+.button-group > button {
+  padding: var(--size-fluid-1);
+  background: none;
+  border: none;
+}

@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react"
 import "./App.css"
 import { toast, Toaster } from "react-hot-toast"
+import "./App.css"
+import { AiFillDelete, AiFillEdit } from "react-icons/ai"
+import { BiEdit, BiPlus } from "react-icons/bi"
+import { CgAdd } from "react-icons/cg"
+import { MdAddTask, MdOutlineAddTask } from "react-icons/md"
 const App = () => {
   const [list, setList] = useState([])
   const [value, setValue] = useState("")
@@ -99,6 +104,13 @@ const App = () => {
       })
       .catch((error) => console.log(error))
   }
+  const editHandler = (id, title) => {
+    setEdit((prevState) => {
+      return { ...prevState, id, status: true }
+    })
+    setValue(title)
+    ref.current.focus()
+  }
 
   useEffect(() => {
     // 5000번 포트 API 서버로부터 데이터 수신
@@ -114,10 +126,10 @@ const App = () => {
   }
 
   return (
-    <div>
-      <form onSubmit={submitHandler}>
+    <div className={"container"}>
+      <form className={"form-group"} onSubmit={submitHandler}>
         <label htmlFor="add-todo">
-          {edit.status ? "할 일 수정" : "할 일 추가"}
+          {edit.status ? <BiEdit /> : <BiPlus />}
         </label>
         <input
           ref={ref}
@@ -146,36 +158,36 @@ const App = () => {
                 onChange={() => checkHandler(todo.id, todo.completed)}
               />
               <label htmlFor={todo.id}>{todo.title}</label>
+              <div className="button-group">
+                {edit.id === todo.id && edit.status ? (
+                  <button
+                    onClick={() => {
+                      setEdit((prevState) => {
+                        return { ...prevState, status: false }
+                      })
+                      setValue("")
+                    }}
+                  >
+                    취소
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      editHandler(todo.id, todo.title)
+                    }}
+                  >
+                    <BiEdit color={"var(--teal-6)"} />
+                  </button>
+                )}
 
-              {edit.id === todo.id && edit.status ? (
-                <button
-                  onClick={() => {
-                    setEdit((prevState) => {
-                      return { ...prevState, status: false }
-                    })
-                    setValue("")
-                  }}
-                >
-                  취소
+                <button onClick={() => deleteHandler(todo.id)}>
+                  <AiFillDelete color={"var(--pink-6)"} />
                 </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    setEdit((prevState) => {
-                      return { ...prevState, id: todo.id, status: true }
-                    })
-                    setValue(todo.title)
-                  }}
-                >
-                  수정
-                </button>
-              )}
-
-              <button onClick={() => deleteHandler(todo.id)}>삭제</button>
+              </div>
             </li>
           ))}
       </ul>
-      <Toaster />
+      <Toaster position={"top-right"} />
     </div>
   )
 }
