@@ -51,8 +51,11 @@
 ul {
   width: 100%;
   list-style: none;
-  padding: var(--size-fluid-1);
   margin: 0;
+  padding: 0;
+}
+ul:has(li) {
+  padding: var(--size-fluid-1);
 }
 ul > li {
   display: flex;
@@ -97,4 +100,5 @@ ul > li:has(input:checked) > .button-group > button {
   padding: var(--size-fluid-1);
   background: none;
   border: none;
+  font-size: var(--font-size-fluid-0);
 }
