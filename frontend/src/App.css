@@ -1,15 +1,8 @@
-/* the props */
 @import "open-props/open-props.min.css";
-
-/* optional imports that use the props */
 @import "open-props/normalize.min.css";
 @import "open-props/colors.min.css";
 @import "open-props/buttons.min.css";
-
-/* individual imports */
 @import "open-props/sizes.min.css";
-
-/* see PropPacks for the full list */
 
 /* input 애니메이션 제거 */
 :where(:focus-visible) {

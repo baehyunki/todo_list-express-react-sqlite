@@ -1,18 +1,35 @@
-import React from "react"
 import { GiCancel } from "react-icons/gi"
 import { BiEdit } from "react-icons/bi"
 import { AiFillDelete } from "react-icons/ai"
 import { toast } from "react-hot-toast"
+import PropTypes from "prop-types"
 
+/**
+ * @description 특정 할 일 아이템을 나타내는 컴포넌트
+ * @param {object} props - 컴포넌트에 전달되는 속성들
+ * @param {object} props.todo - 할 일 아이템 객체
+ * @param {Array} props.list - 할 일 목록 배열
+ * @param {Function} props.setList - 할 일 목록을 업데이트하는 함수
+ * @param {object} props.edit - 편집 상태를 나타내는 객체
+ * @param {Function} props.setEdit - 편집 상태를 업데이트하는 함수
+ * @param {Function} props.setValue - 입력 값(state)을 업데이트하는 함수
+ * @param {Function} props.setFocus - 입력 필드에 포커스하는 함수
+ * @returns {JSX.Element} 할 일 아이템을 나타내는 JSX 요소
+ */
 const ListItem = ({
   todo,
   list,
   setList,
-  editHandler,
   edit,
   setEdit,
   setValue,
+  setFocus,
 }) => {
+  /**
+   * @description 체크박스 클릭 이벤트를 처리하는 함수
+   * @param {string} id - 할 일 아이템의 ID
+   * @param {boolean} completed - 할 일 완료 여부
+   */
   const checkHandler = (id, completed) => {
     fetch(`http://localhost:5000/api/todos/${id}`, {
       method: "PATCH",
@@ -32,6 +49,11 @@ const ListItem = ({
       })
       .catch((error) => console.log(error))
   }
+
+  /**
+   * @description 삭제 버튼 클릭 이벤트를 처리하는 함수
+   * @param {string} id - 할 일 아이템의 ID
+   */
   const deleteHandler = (id) => {
     fetch(`http://localhost:5000/api/todos/${id}`, {
       method: "DELETE",
@@ -46,6 +68,7 @@ const ListItem = ({
       })
       .catch((error) => console.log(error))
   }
+
   return (
     <li key={todo.id}>
       <input
@@ -70,7 +93,15 @@ const ListItem = ({
         ) : (
           <button
             onClick={() => {
-              editHandler(todo.id, todo.title)
+              setEdit((prevState) => {
+                return {
+                  id: todo.id,
+                  title: todo.title,
+                  status: !prevState.status,
+                }
+              })
+              setFocus()
+              setValue(todo.title)
             }}
           >
             <BiEdit color={"var(--teal-6)"} />
@@ -86,3 +117,13 @@ const ListItem = ({
 }
 
 export default ListItem
+
+ListItem.propTypes = {
+  todo: PropTypes.object,
+  list: PropTypes.array,
+  setList: PropTypes.func,
+  edit: PropTypes.object,
+  setEdit: PropTypes.func,
+  setValue: PropTypes.func,
+  setFocus: PropTypes.func,
+}
