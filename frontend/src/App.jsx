@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react"
-import "./App.css"
 import { toast, Toaster } from "react-hot-toast"
 import "./App.css"
 import Form from "./components/Form.jsx"
