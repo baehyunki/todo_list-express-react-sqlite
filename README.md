@@ -14,4 +14,4 @@
 - [react-hot-toast](https://react-hot-toast.com/)
 - [DALL-E 3](https://openai.com/dall-e-3)
 
-[![youtube]](./thumbnail.png)(https://youtu.be/oSrCxdj55a4?si=sBXTq4axPI7dIf7D)
+[![youtube](./thumbnail.png)](https://youtu.be/oSrCxdj55a4?si=sBXTq4axPI7dIf7D)
