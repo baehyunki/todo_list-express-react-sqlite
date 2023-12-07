@@ -14,5 +14,4 @@
 - [react-hot-toast](https://react-hot-toast.com/)
 - [DALL-E 3](https://openai.com/dall-e-3)
 
-[youtube](https://youtu.be/oSrCxdj55a4?si=sBXTq4axPI7dIf7D)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/oSrCxdj55a4?si=jQ_YwQAozxnCzphk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[![youtube]](./thumbnail.png)(https://youtu.be/oSrCxdj55a4?si=sBXTq4axPI7dIf7D)
